@@ -86,7 +86,7 @@
     </div>
 </div>
 <div class="container">
-    <p>Debug: users = ${users}, query = ${query}</p>
+<%--    <p>Debug: users = ${users}, query = ${query}</p>--%>
     <c:choose>
         <c:when test="${users != null && !users.isEmpty()}">
             <h2>Kết quả tìm kiếm cho "${query}"</h2>
