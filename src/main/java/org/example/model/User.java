@@ -13,6 +13,9 @@ public class User {
     private String username;
     private String password;
     private String role;
+    private String email;
+    private String avatar;
+    private int provinceId;
 
 
     private LocalDateTime createdAt;
@@ -106,5 +109,29 @@ public class User {
 
     public void setFollowedByCurrentUser(boolean followedByCurrentUser) {
         this.followedByCurrentUser = followedByCurrentUser;
+    }
+
+    public int getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(int provinceId) {
+        this.provinceId = provinceId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

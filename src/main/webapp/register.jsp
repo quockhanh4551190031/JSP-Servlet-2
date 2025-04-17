@@ -56,7 +56,7 @@
 <!-- Tác dụng: Kiểm tra xem máy chủ có gửi thông báo lỗi không -->
 <!-- Nếu có lỗi (ví dụ: "Tên đăng nhập đã tồn tại"), nó sẽ hiện lên bằng chữ đỏ để bạn biết -->
 
-<form action="register" method="post">
+<form action="register" method="post" enctype="multipart/form-data">
     <!-- Tác dụng: Tạo biểu mẫu để bạn nhập thông tin đăng ký (tên đăng nhập và mật khẩu) -->
     <!-- "action='register'": Khi bạn nhấn "Đăng ký", dữ liệu được gửi đến "/register" trên máy chủ -->
     <!-- "method='post'": Dữ liệu được gửi kín đáo qua POST, không hiện trên URL, để bảo mật thông tin -->
@@ -64,7 +64,7 @@
     <div class="form-group">
         <label for="username">Tên đăng nhập:</label>
         <!-- Tác dụng: Hiển thị chữ "Tên đăng nhập:" để bạn biết ô này nhập gì -->
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" value="${username}" required>
         <!-- Tác dụng: Tạo ô để bạn gõ tên đăng nhập, ví dụ: "Nam123" -->
         <!-- "name='username'": Đặt tên "username" cho dữ liệu này để máy chủ nhận biết -->
         <!-- "required": Bắt buộc phải nhập, nếu không nhập thì form không gửi được -->
@@ -80,6 +80,38 @@
         <!-- "required": Bắt buộc phải nhập, không để trống -->
     </div>
 
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="${email}" required>
+    </div>
+
+    <div class="form-group">
+        <label for="avatar">Ảnh đại diện:</label>
+        <input type="file" id="avatar" name="avatar" accept="image/jpeg, image/png" required>
+        <!-- Chỉ chấp nhận ảnh jpg hoặc png -->
+    </div>
+
+<%--    <div class="form-group">--%>
+<%--        <label for="province">Nơi ở:</label>--%>
+<%--        <select id="province" name="province" required>--%>
+<%--            <option value="0">Chọn tỉnh</option>--%>
+<%--            <c:forEach var="province" items="${provinces}">--%>
+<%--                <option value="${province.idProvince}">${province.nameProvince}</option>--%>
+<%--            </c:forEach>--%>
+<%--        </select>--%>
+<%--    </div>--%>
+    <div class="form-group">
+        <label for="province">Nơi ở:</label>
+        <select id="province" name="province" required>
+            <option value="0" ${province == '0' || province == null ? 'selected' : ''}>Chọn tỉnh</option>
+            <c:forEach var="prov" items="${provinces}">
+                <option value="${prov.idProvince}" ${province == prov.idProvince.toString() ? 'selected' : ''}>
+                        ${prov.nameProvince}
+                </option>
+            </c:forEach>
+        </select>
+    </div>
+
     <button type="submit" class="btn">Đăng ký</button>
     <!-- Tác dụng: Tạo nút "Đăng ký" để gửi dữ liệu bạn vừa nhập -->
     <!-- Khi nhấp, tên đăng nhập và mật khẩu được gửi đến "/register" để máy chủ tạo tài khoản mới -->
@@ -90,5 +122,16 @@
     <!-- Tác dụng: Hiển thị dòng chữ "Đã có tài khoản?" và nút liên kết "Đăng nhập" -->
     <!-- Nếu bạn đã có tài khoản, nhấp "Đăng nhập" sẽ chuyển đến trang đăng nhập ("/login") -->
 </div>
+
+<script>
+    function validateForm() {
+        const province = document.getElementById("province").value;
+        if (province === "0") {
+            alert("Vui lòng chọn một tỉnh hợp lệ!");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
 </body>
 </html>

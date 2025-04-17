@@ -216,6 +216,14 @@
             <i class="fas fa-users"></i> Theo dõi
         </a>
         <span>Xin chào, ${sessionScope.user.username}</span>
+        <small>Email: ${sessionScope.user.email}</small><br>
+        <small>Nơi ở:
+            <c:forEach items="${provinces}" var="prov">
+                <c:if test="${prov.idProvince == sessionScope.user.provinceId}">
+                    ${prov.nameProvince}
+                </c:if>
+            </c:forEach>
+        </small>
         <a href="${pageContext.request.contextPath}/logout" class="btn">Đăng xuất</a>
     </div>
 </div>
@@ -249,8 +257,20 @@
                 <div class="post-header">
                     <div class="post-meta">
                         <div class="post-author">
-                            <i class="fas fa-user"></i>
-                            <span>Người dùng: ${post.user.username}</span>
+<%--                            <i class="fas fa-user"></i>--%>
+<%--                            <span>Người dùng: ${post.user.username}</span>--%>
+                            <img src="${pageContext.request.contextPath}/${post.user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40';">
+                            <div>
+                                <span>Người dùng: ${post.user.username}</span><br>
+                                <small>Email: ${sessionScope.user.email}</small><br>
+                                <small>Nơi ở:
+                                    <c:forEach items="${provinces}" var="prov">
+                                        <c:if test="${prov.idProvince == sessionScope.user.provinceId}">
+                                            ${prov.nameProvince}
+                                        </c:if>
+                                    </c:forEach>
+                                </small>
+                            </div>
                             <c:if test="${sessionScope.user != null and sessionScope.user.id != post.user.id}">
                                 <button onclick="toggleFollow('${post.user.id}')"
                                         class="btn-follow ${post.user.followedByCurrentUser ? 'following' : ''}"

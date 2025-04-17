@@ -29,13 +29,16 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users (username, password, role, created_at) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, password, role, email, avatar, created_at, province_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getPassword());
             statement.setString(3, user.getRole());
-            statement.setTimestamp(4, Timestamp.valueOf(user.getCreatedAt()));
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getAvatar());
+            statement.setTimestamp(6, Timestamp.valueOf(user.getCreatedAt()));
+            statement.setInt(7, user.getProvinceId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +99,10 @@ public class UserDAOImpl implements UserDAO {
         user.setUsername(resultSet.getString("username"));
         user.setPassword(resultSet.getString("password"));
         user.setRole(resultSet.getString("role"));
+        user.setEmail(resultSet.getString("email"));  // Map email
+        user.setAvatar(resultSet.getString("avatar"));  // Map avatar
         user.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+        user.setProvinceId(resultSet.getInt("province_id")); // Map idProvince
         return user;
     }
 
@@ -125,5 +131,22 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return users;
+    }
+
+    public boolean checkEmailExists(String email) {
+        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (Connection conn = databaseConnection.getConnection(); // Kết nối tới database
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, email); // Set giá trị email vào câu truy vấn
+            ResultSet rs = stmt.executeQuery(); // Thực thi truy vấn
+
+            // Kiểm tra nếu có bản ghi nào trả về
+            rs.next();
+            return rs.getInt(1) > 0; // Trả về true nếu có ít nhất một bản ghi
+        } catch (SQLException e) {
+            e.printStackTrace(); // In lỗi ra console
+            return false; // Nếu có lỗi thì trả về false
+        }
     }
 }

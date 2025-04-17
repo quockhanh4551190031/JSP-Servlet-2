@@ -9,7 +9,10 @@ import jakarta.servlet.http.HttpServletResponse; // Gửi phản hồi từ serv
 import jakarta.servlet.http.HttpSession; // Quản lý phiên làm việc (session) của người dùng
 import org.example.DAO.PostsDAO; // Giao diện để truy vấn dữ liệu bài viết
 import org.example.DAO.PostsDAOImpl; // Lớp triển khai cụ thể của PostsDAO
+import org.example.DAO.ProvinceDAO;
+import org.example.DAO.ProvinceDAOImpl;
 import org.example.model.Posts; // Lớp mô hình đại diện cho thông tin bài viết
+import org.example.model.Provinces;
 import org.example.model.User; // Lớp mô hình đại diện cho thông tin người dùng
 import java.io.IOException; // Xử lý ngoại lệ liên quan đến đầu vào/đầu ra
 import java.util.List; // Lớp để lưu danh sách bài viết
@@ -71,6 +74,10 @@ public class HomeServlet extends HttpServlet {
         // Tác dụng: Tính tổng số trang dựa trên số bài viết và lưu vào request
         // Math.ceil: Làm tròn lên để đảm bảo đủ trang cho tất cả bài viết
         request.setAttribute("totalPages", (int) Math.ceil((double) posts.size() / POSTS_PER_PAGE));
+
+        ProvinceDAO provinceDAO = new ProvinceDAOImpl();
+        List<Provinces> provinces = provinceDAO.getAllProvinces();
+        request.setAttribute("provinces", provinces);
 
         // Tác dụng: Chuyển tiếp (forward) yêu cầu đến file home.jsp để hiển thị giao diện trang chủ
         // JSP sẽ sử dụng dữ liệu từ request để render danh sách bài viết

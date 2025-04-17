@@ -11,4 +11,5 @@ public interface UserDAO {
     List<User> findAll();
     User findByUsername(String username);
     List<User> searchByUsername(String query);
+    boolean checkEmailExists(String email);
 }
