@@ -15,7 +15,10 @@ public class PostsDAOImpl implements PostsDAO {
     @Override
     public List<Posts> findAll(int offset, int limit, User currentUser) {
         List<Posts> posts = new ArrayList<>();
-        String sql = "SELECT * FROM posts WHERE status = 'ACTIVE' ORDER BY created_at DESC LIMIT ? OFFSET ?";
+//        String sql = "SELECT * FROM posts WHERE status = 'ACTIVE' ORDER BY created_at DESC LIMIT ? OFFSET ?";
+        String sql = "SELECT p.*, u.username, u.email, u.avatar, u.province_id " +
+                "FROM posts p JOIN users u ON p.user_id = u.id " +
+                "ORDER BY p.created_at DESC LIMIT ? OFFSET ?";
         try (Connection connection = databaseConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, limit);
@@ -138,9 +141,25 @@ public class PostsDAOImpl implements PostsDAO {
         post.setStatus(resultSet.getString("status"));
         post.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
 
+
+        User user = new User();
         // Lấy thông tin người dùng
         Long userId = resultSet.getLong("user_id");
-        User user = getUserDetails(userId); // Phương thức để lấy thông tin chi tiết của người dùng
+        user = getUserDetails(userId); // Phương thức để lấy thông tin chi tiết của người dùng
+        user.setUsername(resultSet.getString("username"));
+
+        // Debug logging
+        String email = resultSet.getString("email");
+        String avatar = resultSet.getString("avatar");
+        int provinceId = resultSet.getInt("province_id");
+        System.out.println("DEBUG: Mapping user_id=" + user.getId() +
+                ", email=" + email +
+                ", avatar=" + avatar +
+                ", province_id=" + provinceId);
+
+        user.setEmail(email);
+        user.setAvatar(avatar);
+        user.setProvinceId(provinceId);
         post.setUser(user);
 
         return post;

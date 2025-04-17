@@ -215,6 +215,7 @@
            style="margin-right: 10px; text-decoration: none; color: #000;">
             <i class="fas fa-users"></i> Theo dõi
         </a>
+        <small><img src="${pageContext.request.contextPath}/${sessionScope.user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40';" width="100"></small>
         <span>Xin chào, ${sessionScope.user.username}</span>
         <small>Email: ${sessionScope.user.email}</small><br>
         <small>Nơi ở:
@@ -259,7 +260,7 @@
                         <div class="post-author">
 <%--                            <i class="fas fa-user"></i>--%>
 <%--                            <span>Người dùng: ${post.user.username}</span>--%>
-                            <img src="${pageContext.request.contextPath}/${post.user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40';">
+                            <img src="${pageContext.request.contextPath}/${post.user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40';" width="50">
                             <div>
                                 <span>Người dùng: ${post.user.username}</span><br>
                                 <small>Email: ${post.user.email}</small><br>

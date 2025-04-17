@@ -70,7 +70,7 @@ public class RegisterServlet extends HttpServlet {
             if (!uploadDir.exists()) uploadDir.mkdir();
             String filePath = uploadPath + java.io.File.separator + fileName;
             avatarPart.write(filePath);
-            avatar = "uploads/" + fileName; // Store the relative path
+            avatar = "/uploads/" + fileName; // Store the relative path
         }
 
         // Tác dụng: Khởi tạo đối tượng UserDAO để tương tác với cơ sở dữ liệu
