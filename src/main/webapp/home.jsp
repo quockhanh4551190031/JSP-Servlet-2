@@ -262,10 +262,10 @@
                             <img src="${pageContext.request.contextPath}/${post.user.avatar}" alt="Avatar" class="user-avatar" onerror="this.src='https://via.placeholder.com/40';">
                             <div>
                                 <span>Người dùng: ${post.user.username}</span><br>
-                                <small>Email: ${sessionScope.user.email}</small><br>
+                                <small>Email: ${post.user.email}</small><br>
                                 <small>Nơi ở:
                                     <c:forEach items="${provinces}" var="prov">
-                                        <c:if test="${prov.idProvince == sessionScope.user.provinceId}">
+                                        <c:if test="${prov.idProvince == post.user.provinceId}">
                                             ${prov.nameProvince}
                                         </c:if>
                                     </c:forEach>
